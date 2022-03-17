@@ -49,7 +49,7 @@ class Sphere{
         Random rand = new Random();
         position = new Pair(500.0, 500.0);
         velocity = new Pair((double)(rand.nextInt(1000) - 500), (double)(rand.nextInt(1000) - 500));
-        acceleration = new Pair(0.0, 200.0);
+        acceleration = new Pair(((Math.random()*100)-50), 200.0);
         radius = 25;
         dampening = 1.3;
         color = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
@@ -179,18 +179,52 @@ public class KeyboardSpheres extends JPanel implements KeyListener{
 
 
     public void keyPressed(KeyEvent e) {
+        //change colors
         char c = e.getKeyChar();
         System.out.println("You pressed down: " + c);
     }
 
     public void keyReleased(KeyEvent e) {
-        char c=e.getKeyChar();
+        //increase acceleration
+        char c= e.getKeyChar();
     }
 
 
     public void keyTyped(KeyEvent e) {
+        /*
+        Notes about the method:
+        In the normal version of the method, every sphere has an X and Y acceleration that can be changed with the
+        keyboard inputs. But, each sphere always has both an X and Y acceleration.
+        If the commented out code is put in, each sphere only has acceleration pointing one direction in either X
+        or Y.
+         */
         char c = e.getKeyChar();
+
+        for (int i = 0; i < world.numSpheres; i++) {
+            double xAcc = world.spheres[i].getAcceleration().x;
+            double yAcc = world.spheres[i].getAcceleration().y;
+            //Pair newAccX = new Pair(xAcc, 0.0);
+            //Pair newAccY = new Pair(0.0, yAcc);
+            if (c == 'w' && yAcc >= 0) {
+                //world.spheres[i].setAcceleration(newAccY);
+                world.spheres[i].acceleration.flipY();
+            }
+            if (c == 's' && yAcc < 0) {
+                //world.spheres[i].setAcceleration(newAccY);
+                world.spheres[i].acceleration.flipY();
+            }
+            if (c == 'a' && xAcc >= 0) {
+                //world.spheres[i].setAcceleration(newAccX);
+                world.spheres[i].acceleration.flipX();
+            }
+            if (c == 'd' && xAcc < 0) {
+                //world.spheres[i].setAcceleration(newAccX);
+                world.spheres[i].acceleration.flipX();
+            }
+        }
+
     }
+
 
     public void addNotify() {
         super.addNotify();
