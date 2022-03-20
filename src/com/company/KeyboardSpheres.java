@@ -181,44 +181,80 @@ public class KeyboardSpheres extends JPanel implements KeyListener{
     public void keyPressed(KeyEvent e) {
         //change colors
         char c = e.getKeyChar();
-        System.out.println("You pressed down: " + c);
+        for (int i = 0; i < world.numSpheres; i++) {
+            Sphere s = world.spheres[i];
+            if (c == '0') {
+                s.color = new Color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
+            }
+            if (c == '1') {
+                s.color = new Color(255, 0, 127);
+            }
+            if (c == '2') {
+                s.color = Color.RED;
+            }
+            if (c == '3') {
+                s.color = Color.PINK;
+            }
+            if (c == '4') {
+                s.color = new Color(255, 128, 0);
+            }
+            if (c == '5') {
+                s.color = Color.GREEN;
+            }
+            if (c == '6') {
+                s.color = new Color(67, 255, 193);
+            }
+            if (c == '7') {
+                s.color = Color.CYAN;
+            }
+            if (c == '8') {
+                s.color = Color.BLUE;
+            }
+            if (c== '9') {
+                s.color = new Color(127, 0, 255);
+            }
+        }
     }
 
     public void keyReleased(KeyEvent e) {
-        //increase acceleration
+        //method is supposed to increase acceleration
+        //couldn't get it to work
+        /*
         char c= e.getKeyChar();
+        while (c == KeyEvent.VK_SPACE) {
+            for (int i = 0; i < world.numSpheres; i++) {
+                Sphere s = world.spheres[i];
+                //increase abs val of acc
+                double newXAcc = Math.abs(s.acceleration.x);
+                s.acceleration.x = newXAcc;
+                double newYAcc = Math.abs(s.acceleration.x);
+                s.acceleration.y = newYAcc;
+            }
+        }
+
+         */
     }
 
 
     public void keyTyped(KeyEvent e) {
         /*
-        Notes about the method:
-        In the normal version of the method, every sphere has an X and Y acceleration that can be changed with the
-        keyboard inputs. But, each sphere always has both an X and Y acceleration.
-        If the commented out code is put in, each sphere only has acceleration pointing one direction in either X
-        or Y.
+        Notes about the method: each sphere always has both an X and Y acceleration.
          */
         char c = e.getKeyChar();
 
         for (int i = 0; i < world.numSpheres; i++) {
             double xAcc = world.spheres[i].getAcceleration().x;
             double yAcc = world.spheres[i].getAcceleration().y;
-            //Pair newAccX = new Pair(xAcc, 0.0);
-            //Pair newAccY = new Pair(0.0, yAcc);
             if (c == 'w' && yAcc >= 0) {
-                //world.spheres[i].setAcceleration(newAccY);
                 world.spheres[i].acceleration.flipY();
             }
             if (c == 's' && yAcc < 0) {
-                //world.spheres[i].setAcceleration(newAccY);
                 world.spheres[i].acceleration.flipY();
             }
             if (c == 'a' && xAcc >= 0) {
-                //world.spheres[i].setAcceleration(newAccX);
                 world.spheres[i].acceleration.flipX();
             }
             if (c == 'd' && xAcc < 0) {
-                //world.spheres[i].setAcceleration(newAccX);
                 world.spheres[i].acceleration.flipX();
             }
         }
